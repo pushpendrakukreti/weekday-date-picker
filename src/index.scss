@@ -4,13 +4,13 @@ body {
   .app {
     display: flex;
     justify-content: center;
-    align-items: center;
     min-height: 90vh;
     font-family: sans-serif;
     padding: 20px;
 
     .main-div {
       text-align: center;
+      width: 25%;
 
       .selected-range {
         margin-top: 2%;
