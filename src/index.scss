@@ -12,7 +12,16 @@ body {
     .main-div {
       text-align: center;
 
-      h1 {
+      .selected-range {
+        margin-top: 2%;
+        font-size: large !important;
+
+        span {
+          font-weight: bolder;
+        }
+      }
+
+      h1, .selected-range {
         background-color: rgb(189, 183, 107);
         font-size: x-large;
         padding: 10px 0px;
