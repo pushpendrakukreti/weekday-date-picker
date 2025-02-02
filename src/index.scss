@@ -1,0 +1,23 @@
+body {
+  background: #ddd;
+
+  .app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    font-family: sans-serif;
+    padding: 20px;
+
+    .main-div {
+      text-align: center;
+
+      h1 {
+        background-color: rgb(189, 183, 107);
+        font-size: x-large;
+        padding: 10px 0px;
+        color: white;
+      }
+    }
+  }
+}
