@@ -3,6 +3,7 @@ body {
 
   .app {
     display: flex;
+    overflow-y: hidden;
     justify-content: center;
     min-height: 90vh;
     font-family: sans-serif;
@@ -13,7 +14,7 @@ body {
 
       .selected-range {
         margin-top: 2%;
-        font-size: large !important;
+        font-size: 1em !important;
 
         span {
           font-weight: bolder;
