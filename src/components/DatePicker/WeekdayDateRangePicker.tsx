@@ -1,10 +1,9 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState } from 'react';
 import "./WeekdayDateRangePicker.scss";
 import { formatDate, getWeekendsBetweenDates } from '../../shared/utils/dateUtils';
-
-const Calendar = lazy(() => import('./Calendar'));
-const Header = lazy(() => import('./Header'));
-const PredefinedRanges = lazy(() => import('./PredefinedRanges'));
+import Calendar from './Calendar';
+import Header from './Header';
+import PredefinedRanges from './PredefinedRanges';
 
 type DateRangePickerProps = {
   onChange: (dateRange: [string, string], weekends: string[]) => void;
@@ -68,29 +67,23 @@ const WeekdayDateRangePicker: React.FC<DateRangePickerProps> = ({ onChange, pred
 
   return (
     <div className="date-picker" role="calendar">
-      <Suspense fallback={<div>Loading Header...</div>}>
-        <Header
-          currentMonth={currentMonth}
-          currentYear={currentYear}
-          setCurrentMonth={setCurrentMonth}
-          setCurrentYear={setCurrentYear}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading Calendar...</div>}>
-        <Calendar
-          currentMonth={currentMonth}
-          currentYear={currentYear}
-          isSelected={isSelected}
-          handleDateSelect={handleDateSelect}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading Predefined Ranges...</div>}>
-        <PredefinedRanges
-          predefinedRanges={predefinedRanges}
-          handlePredefinedRangeClick={handlePredefinedRangeClick}
-          handleClearSelection={handleClearSelection}
-        />
-      </Suspense>
+      <Header
+        currentMonth={currentMonth}
+        currentYear={currentYear}
+        setCurrentMonth={setCurrentMonth}
+        setCurrentYear={setCurrentYear}
+      />
+      <Calendar
+        currentMonth={currentMonth}
+        currentYear={currentYear}
+        isSelected={isSelected}
+        handleDateSelect={handleDateSelect}
+      />
+      <PredefinedRanges
+        predefinedRanges={predefinedRanges}
+        handlePredefinedRangeClick={handlePredefinedRangeClick}
+        handleClearSelection={handleClearSelection}
+      />
     </div>
   );
 };
