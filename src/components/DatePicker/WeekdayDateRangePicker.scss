@@ -105,8 +105,8 @@
   .predefined-ranges {
     display: flex;
     gap: 5px;
-    flex-wrap: wrap;
     margin-top: 10px;
+    justify-content: space-between;
 
     button {
       padding: 10px;
