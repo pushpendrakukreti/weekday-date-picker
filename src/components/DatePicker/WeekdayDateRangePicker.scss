@@ -1,3 +1,76 @@
+.calendars-container {
+  display: flex;
+  gap: 20px;
+
+  .calendar {
+    width: 48%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+
+    .month-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .weekdays {
+      display: flex;
+      margin-bottom: 2%;
+      .weekday-header {
+        width: calc(100% / 7);
+        text-align: center;
+        padding: 5px;
+        margin: 0px 0.5px;
+        font-weight: bold;
+        color: #555;
+        background-color: rgb(189, 183, 107);
+        color: white;
+      }
+    }
+
+    .week {
+      display: flex;
+      .day,
+      .empty-day {
+        width: calc(100% / 7);
+        height: 30px;
+        text-align: center;
+        border: 1px solid #eee;
+        padding: 5px;
+        box-sizing: border-box;
+        cursor: pointer;
+        background-color: white;
+
+        &.weekend {
+          color: #ccc;
+        }
+
+        &.selected {
+          background-color: rgb(189, 183, 107, 0.3);
+          border: 1px solid rgb(189, 183, 107);
+        }
+
+        &:hover {
+          background-color: #eee;
+        }
+
+        &:focus {
+          outline: 2px solid lightblue;
+        }
+      }
+      .empty-day {
+        border: none;
+        background: none;
+        cursor: default;
+        color: #ddd;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
 .date-picker {
   display: inline-block;
   border: 1px solid #ccc;
@@ -5,133 +78,81 @@
   width: fit-content;
   font-family: sans-serif;
   background-color: beige;
-  zoom: 1.1;
+  zoom: 1;
+}
 
-  .header {
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: white;
+
+  .year-header, .month-header {
+    width: 48%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
     background-color: rgb(189, 183, 107);
+  }
+
+  button {
+    padding: 10px;
+    border: 1px solid #ccc !important;
+    background-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border: none;
+    font-size: 0.9rem;
+    width: 2.5rem;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    &:focus {
+      outline: 2px solid lightblue;
+    }
+  }
+
+  span {
+    font-weight: bold;
+  }
+}
+
+.predefined-ranges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: space-between;
+
+  button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: rgb(189, 183, 107);
+    cursor: pointer;
+    transition: background-color 0.2s;
     color: white;
-    padding: 4px 4px;
+    border-radius: 5px;
 
-    button {
-      padding: 10px;
-      border: 1px solid #ccc !important;
-      background-color: rgba(255, 255, 255, 1);
-      cursor: pointer;
-      transition: background-color 0.2s;
-      border: none;
-      font-size: 0.9rem;
-      width: 2.5rem;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.8);
-      }
+    &:hover {
+      background-color: rgba(189, 183, 107, 0.8);
     }
 
-    span {
-      font-weight: bold;
-    }
-  }
-
-  .calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    table-layout: fixed;
-
-    .weekdays {
-      display: contents;
-      grid-template-columns: repeat(7, 1fr);
-      font-size: small;
-      margin-bottom: 5px;
-      text-align: center;
-      color: #555;
-    }
-
-    .weekday-header {
-      padding: 10px;
-      text-align: center;
+    &.clear-selection {
       background-color: rgb(189, 183, 107);
-      color: white;
-    }
-
-    .week {
-      display: contents;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-
-      .day,
-      .empty-day,
-      .weekday-header {
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: white;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
-
-        &:hover {
-          background-color: #eee;
-        }
-      }
-
-      .weekend {
-        color: #ccc;
-      }
-
-      .selected {
-        background-color: rgb(189, 183, 107, 0.3);
-        border: 1px solid rgb(189, 183, 107);
-
-        &:hover {
-          background-color: rgb(189, 183, 107, 0.5);
-        }
-      }
-
-      .empty-day {
-        cursor: default;
-        color: #ddd;
-        border: none;
-        background-color: transparent;
-      }
-    }
-  }
-
-  .predefined-ranges {
-    display: flex;
-    gap: 5px;
-    margin-top: 10px;
-    justify-content: space-between;
-
-    button {
-      padding: 10px;
-      border: 1px solid #ccc;
-      background-color: rgb(189, 183, 107);
-      cursor: pointer;
-      transition: background-color 0.2s;
       color: white;
 
       &:hover {
         background-color: rgba(189, 183, 107, 0.8);
       }
-
-      &.clear-selection {
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: rgb(189, 183, 107);
-        cursor: pointer;
-        transition: background-color 0.2s;
-        color: white;
-
-        &:hover {
-          background-color: rgba(189, 183, 107, 0.8);
-        }
+      &:focus {
+        outline: 2px solid lightblue;
       }
+    }
+    &:focus {
+      outline: 2px solid lightblue;
     }
   }
 }
