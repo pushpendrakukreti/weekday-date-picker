@@ -15,9 +15,6 @@ export const getWeekendsBetweenDates = (startDate: string, endDate: string): str
     startDateObj.setDate(startDateObj.getDate() + 1);
     endDateObj.setDate(endDateObj.getDate() + 1);
 
-    const adjustedStart = formatDate(startDateObj);
-    const adjustedEnd = formatDate(endDateObj);
-
     for (let date = new Date(startDateObj); date <= endDateObj; date.setDate(date.getDate() + 1)) {
         const dayOfWeek = date.getDay();
         if (dayOfWeek === 0 || dayOfWeek === 6) {

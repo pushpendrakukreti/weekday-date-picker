@@ -8,14 +8,20 @@ import PredefinedRanges from './PredefinedRanges';
 type DateRangePickerProps = {
   onChange: (dateRange: [string, string], weekends: string[]) => void;
   predefinedRanges?: { label: string; range: [string, string] }[];
+  selectedRange?: [string, string] | null;
 };
 
-const WeekdayDateRangePicker: React.FC<DateRangePickerProps> = ({ onChange, predefinedRanges }) => {
-  const [startDate, setStartDate] = useState<string | null>(null);
-  const [endDate, setEndDate] = useState<string | null>(null);
+const WeekdayDateRangePicker: React.FC<DateRangePickerProps> = ({ onChange, predefinedRanges, selectedRange }) => {
+  const initialStartDate = selectedRange ? selectedRange[0] : null;
+  const initialEndDate = selectedRange ? selectedRange[1] : null;
 
-  const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+  const [startDate, setStartDate] = useState<string | null>(initialStartDate);
+  const [endDate, setEndDate] = useState<string | null>(initialEndDate);
+
+  const [displayedMonths, setDisplayedMonths] = useState([
+    { month: new Date().getMonth(), year: new Date().getFullYear() },
+    { month: (new Date().getMonth() + 1) % 12, year: new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear() },
+  ]);
 
   const isSelected = (date: Date): boolean => {
     const formattedDate = formatDate(date);
@@ -55,8 +61,7 @@ const WeekdayDateRangePicker: React.FC<DateRangePickerProps> = ({ onChange, pred
     const startMonth = date.getMonth();
     const startYear = date.getFullYear();
 
-    setCurrentMonth(startMonth);
-    setCurrentYear(startYear);
+    setDisplayedMonths([{ month: startMonth, year: startYear }, { month: (startMonth + 1) % 12, year: startMonth === 11 ? startYear + 1 : startYear }]);
   };
 
   const handleClearSelection = () => {
@@ -65,20 +70,56 @@ const WeekdayDateRangePicker: React.FC<DateRangePickerProps> = ({ onChange, pred
     onChange(["", ""], []);
   };
 
+  const handleMonthChange = (direction: number) => {
+    setDisplayedMonths(prevMonths => {
+      const firstMonth = { ...prevMonths[0] };
+      const secondMonth = { ...prevMonths[1] };
+
+      if (direction === 1) {
+        firstMonth.month = (firstMonth.month + 1) % 12;
+        if (firstMonth.month === 0) {
+          firstMonth.year++;
+        }
+
+      } else if (direction === -1) {
+        firstMonth.month = firstMonth.month === 0 ? 11 : firstMonth.month - 1;
+        if (firstMonth.month === 11) {
+          firstMonth.year--;
+        }
+      } else if (direction === 12) {
+          firstMonth.year++;
+          secondMonth.year++;
+      } else if (direction === -12) {
+          firstMonth.year--;
+          secondMonth.year--;
+      }
+
+      secondMonth.month = (firstMonth.month + 1) % 12;
+      secondMonth.year = firstMonth.month === 11 ? firstMonth.year + 1 : firstMonth.year;
+
+
+      return [firstMonth, secondMonth];
+    });
+  };
+
   return (
     <div className="date-picker" role="calendar">
       <Header
-        currentMonth={currentMonth}
-        currentYear={currentYear}
-        setCurrentMonth={setCurrentMonth}
-        setCurrentYear={setCurrentYear}
+        currentMonth={displayedMonths[0].month}
+        currentYear={displayedMonths[0].year}
+        onMonthChange={handleMonthChange}
       />
-      <Calendar
-        currentMonth={currentMonth}
-        currentYear={currentYear}
-        isSelected={isSelected}
-        handleDateSelect={handleDateSelect}
-      />
+      <div className="calendars-container">
+        {displayedMonths.map((monthData, index) => (
+          <Calendar
+            key={index}
+            month={monthData.month}
+            year={monthData.year}
+            isSelected={isSelected}
+            handleDateSelect={handleDateSelect}
+          />
+        ))}
+      </div>
       <PredefinedRanges
         predefinedRanges={predefinedRanges}
         handlePredefinedRangeClick={handlePredefinedRangeClick}
